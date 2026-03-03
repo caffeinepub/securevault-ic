@@ -1,0 +1,375 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+
+    /* SecureVault IC — Dark Navy Enterprise Theme */
+    /* Base: Deep navy #0A1628 → oklch(0.15 0.04 255) */
+    --background: 0.11 0.035 255;
+    --foreground: 0.97 0.005 255;
+
+    --card: 0.16 0.04 255;
+    --card-foreground: 0.97 0.005 255;
+
+    --popover: 0.18 0.045 255;
+    --popover-foreground: 0.97 0.005 255;
+
+    /* Electric blue primary: #1E6FFF → oklch(0.55 0.22 264) */
+    --primary: 0.55 0.22 264;
+    --primary-foreground: 0.99 0 0;
+
+    /* Secondary: mid-navy */
+    --secondary: 0.20 0.05 255;
+    --secondary-foreground: 0.85 0.01 255;
+
+    --muted: 0.18 0.03 255;
+    --muted-foreground: 0.62 0.03 255;
+
+    /* Gold accent: #C9A84C → oklch(0.73 0.12 82) */
+    --accent: 0.73 0.12 82;
+    --accent-foreground: 0.11 0.035 255;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.28 0.04 255;
+    --input: 0.22 0.045 255;
+    --ring: 0.55 0.22 264;
+
+    /* Chart colors */
+    --chart-1: 0.55 0.22 264;
+    --chart-2: 0.73 0.12 82;
+    --chart-3: 0.65 0.18 220;
+    --chart-4: 0.60 0.15 200;
+    --chart-5: 0.70 0.10 100;
+
+    /* Sidebar */
+    --sidebar: 0.13 0.04 255;
+    --sidebar-foreground: 0.97 0.005 255;
+    --sidebar-primary: 0.55 0.22 264;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.73 0.12 82;
+    --sidebar-accent-foreground: 0.11 0.035 255;
+    --sidebar-border: 0.28 0.04 255;
+    --sidebar-ring: 0.55 0.22 264;
+
+    /* Custom brand tokens */
+    --brand-navy: 0.11 0.035 255;
+    --brand-navy-mid: 0.16 0.04 255;
+    --brand-navy-light: 0.22 0.05 255;
+    --brand-blue: 0.55 0.22 264;
+    --brand-blue-light: 0.65 0.18 264;
+    --brand-gold: 0.73 0.12 82;
+    --brand-gold-dark: 0.60 0.10 82;
+    --brand-silver: 0.82 0.01 255;
+  }
+
+  .dark {
+    --background: 0.11 0.035 255;
+    --foreground: 0.97 0.005 255;
+    --card: 0.16 0.04 255;
+    --card-foreground: 0.97 0.005 255;
+    --popover: 0.18 0.045 255;
+    --popover-foreground: 0.97 0.005 255;
+    --primary: 0.55 0.22 264;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.20 0.05 255;
+    --secondary-foreground: 0.85 0.01 255;
+    --muted: 0.18 0.03 255;
+    --muted-foreground: 0.62 0.03 255;
+    --accent: 0.73 0.12 82;
+    --accent-foreground: 0.11 0.035 255;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.28 0.04 255;
+    --input: 0.22 0.045 255;
+    --ring: 0.55 0.22 264;
+    --sidebar: 0.13 0.04 255;
+    --sidebar-foreground: 0.97 0.005 255;
+    --sidebar-primary: 0.55 0.22 264;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.73 0.12 82;
+    --sidebar-accent-foreground: 0.11 0.035 255;
+    --sidebar-border: 0.28 0.04 255;
+    --sidebar-ring: 0.55 0.22 264;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Sora", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Scroll animations */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.animate-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-on-scroll-delay-1 { transition-delay: 0.1s; }
+.animate-on-scroll-delay-2 { transition-delay: 0.2s; }
+.animate-on-scroll-delay-3 { transition-delay: 0.3s; }
+.animate-on-scroll-delay-4 { transition-delay: 0.4s; }
+.animate-on-scroll-delay-5 { transition-delay: 0.5s; }
+.animate-on-scroll-delay-6 { transition-delay: 0.6s; }
+
+/* Glow effects */
+.glow-blue {
+  box-shadow: 0 0 30px oklch(0.55 0.22 264 / 0.3), 0 0 60px oklch(0.55 0.22 264 / 0.15);
+}
+
+.glow-gold {
+  box-shadow: 0 0 20px oklch(0.73 0.12 82 / 0.4);
+}
+
+/* Grid background pattern */
+.grid-pattern {
+  background-image: 
+    linear-gradient(oklch(0.55 0.22 264 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.55 0.22 264 / 0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Card elevation system — three distinct tiers */
+
+/* Tier 1: Recessed — for secondary/supporting content */
+.glass-card {
+  background: oklch(0.14 0.035 255 / 0.9);
+  border: 1px solid oklch(0.30 0.04 255 / 0.6);
+}
+
+.glass-card:hover {
+  border-color: oklch(0.55 0.22 264 / 0.45);
+  box-shadow: 0 0 20px oklch(0.55 0.22 264 / 0.1), inset 0 1px 0 oklch(0.55 0.22 264 / 0.08);
+}
+
+/* Tier 2: Elevated — for primary feature/testimonial cards */
+.card-elevated {
+  background: oklch(0.17 0.045 255 / 0.95);
+  border: 1px solid oklch(0.55 0.22 264 / 0.18);
+  box-shadow: 0 4px 24px oklch(0.05 0.02 255 / 0.6), inset 0 1px 0 oklch(0.55 0.22 264 / 0.12);
+}
+
+.card-elevated:hover {
+  border-color: oklch(0.55 0.22 264 / 0.5);
+  box-shadow: 0 8px 40px oklch(0.05 0.02 255 / 0.8), 0 0 30px oklch(0.55 0.22 264 / 0.12), inset 0 1px 0 oklch(0.55 0.22 264 / 0.2);
+  transform: translateY(-2px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Tier 3: Featured — for highlighted pricing card */
+.card-featured {
+  background: linear-gradient(160deg, oklch(0.19 0.06 264 / 0.95) 0%, oklch(0.15 0.05 264 / 0.9) 100%);
+  border: 1px solid oklch(0.55 0.22 264 / 0.5);
+  box-shadow:
+    0 0 0 1px oklch(0.73 0.12 82 / 0.15),
+    0 8px 40px oklch(0.05 0.02 255 / 0.7),
+    0 0 60px oklch(0.55 0.22 264 / 0.18),
+    inset 0 1px 0 oklch(0.55 0.22 264 / 0.25);
+}
+
+/* Button glow */
+.btn-primary-glow {
+  background: oklch(0.55 0.22 264);
+  box-shadow: 0 4px 20px oklch(0.55 0.22 264 / 0.4);
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary-glow:hover {
+  background: oklch(0.62 0.22 264);
+  box-shadow: 0 6px 30px oklch(0.55 0.22 264 / 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-outline-glow {
+  border: 1px solid oklch(0.55 0.22 264 / 0.5);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.btn-outline-glow:hover {
+  border-color: oklch(0.55 0.22 264);
+  box-shadow: 0 0 20px oklch(0.55 0.22 264 / 0.3);
+  transform: translateY(-1px);
+}
+
+/* Gold accent line */
+.gold-line {
+  background: linear-gradient(90deg, transparent, oklch(0.73 0.12 82), transparent);
+  height: 1px;
+}
+
+/* Noise texture overlay */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* Section divider */
+.section-divider {
+  background: linear-gradient(90deg, transparent, oklch(0.55 0.22 264 / 0.3), oklch(0.73 0.12 82 / 0.5), oklch(0.55 0.22 264 / 0.3), transparent);
+  height: 1px;
+}
+
+/* Badge pulse */
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.badge-pulse {
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+/* Pipeline step connector — dashed animated line */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -20; }
+}
+
+.pipeline-connector {
+  position: relative;
+}
+
+.pipeline-connector::after {
+  content: '';
+  position: absolute;
+  background-image: repeating-linear-gradient(
+    90deg,
+    oklch(0.55 0.22 264 / 0.5) 0px,
+    oklch(0.55 0.22 264 / 0.5) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 16px 1px;
+  height: 1px;
+  top: 50%;
+  left: calc(100% + 12px);
+  right: -12px;
+  width: calc(100% - 24px);
+  pointer-events: none;
+  animation: none;
+}
+
+/* Stat ticker strip */
+.stat-ticker {
+  background: oklch(0.14 0.04 255 / 0.8);
+  border: 1px solid oklch(0.55 0.22 264 / 0.2);
+  border-radius: 9999px;
+}
+
+/* Hero headline first impression */
+.hero-headline-primary {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 900;
+}
+
+.hero-headline-secondary {
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
+/* Step card with colored left border */
+.step-card {
+  background: oklch(0.15 0.04 255 / 0.9);
+  border: 1px solid oklch(0.30 0.04 255 / 0.7);
+  border-left-width: 3px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.step-card:hover {
+  box-shadow: 0 8px 32px oklch(0.05 0.02 255 / 0.6);
+  transform: translateY(-3px);
+}
+
+.step-card-blue {
+  border-left-color: oklch(0.55 0.22 264);
+}
+
+.step-card-gold {
+  border-left-color: oklch(0.73 0.12 82);
+}
+
+/* Vertical pipeline connector for mobile */
+.step-connector-v {
+  width: 1px;
+  background: repeating-linear-gradient(
+    180deg,
+    oklch(0.55 0.22 264 / 0.5) 0px,
+    oklch(0.55 0.22 264 / 0.5) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  height: 32px;
+  margin: 0 auto;
+}
+
+/* Horizontal pipeline connector for desktop */
+.step-connector-h {
+  height: 1px;
+  flex: 1;
+  background: repeating-linear-gradient(
+    90deg,
+    oklch(0.55 0.22 264 / 0.5) 0px,
+    oklch(0.55 0.22 264 / 0.5) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  margin-top: -1px;
+}
+
+/* Outlined step number */
+.step-number-outline {
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px oklch(0.55 0.22 264 / 0.15);
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
+}
+
+/* Gradient text */
+.gradient-text-blue {
+  background: linear-gradient(135deg, oklch(0.7 0.18 264), oklch(0.55 0.22 264));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, oklch(0.85 0.12 82), oklch(0.73 0.12 82));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
