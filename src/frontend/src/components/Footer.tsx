@@ -144,9 +144,19 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            © {year} SecureVault IC. All rights reserved.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <p className="text-xs text-muted-foreground">
+              © {year} SecureVault IC. All rights reserved.
+            </p>
+            <a
+              href="https://securevaultic.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-brand-blue hover:text-foreground transition-colors font-medium"
+            >
+              securevaultic.com
+            </a>
+          </div>
 
           <div className="flex items-center gap-5">
             {/* ICP badge */}
