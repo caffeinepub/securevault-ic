@@ -10,6 +10,15 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
+export interface AccessRequest {
+  'name' : string,
+  'plan' : string,
+  'sector' : string,
+  'email' : string,
+  'company' : string,
+  'message' : string,
+  'timestamp' : string,
+}
 export interface ShoppingItem {
   'productName' : string,
   'currency' : string,
@@ -61,6 +70,7 @@ export interface _SERVICE {
     string
   >,
   'customLog' : ActorMethod<[string], undefined>,
+  'getAccessRequests' : ActorMethod<[], Array<AccessRequest>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getStripeSessionStatus' : ActorMethod<[string], StripeSessionStatus>,
@@ -69,6 +79,7 @@ export interface _SERVICE {
   'isStripeConfigured' : ActorMethod<[], boolean>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'setStripeConfiguration' : ActorMethod<[StripeConfiguration], undefined>,
+  'submitAccessRequest' : ActorMethod<[AccessRequest], undefined>,
   'transform' : ActorMethod<[TransformationInput], TransformationOutput>,
 }
 export declare const idlService: IDL.ServiceClass;

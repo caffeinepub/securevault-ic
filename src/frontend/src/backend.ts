@@ -106,6 +106,15 @@ export interface ShoppingItem {
     priceInCents: bigint;
     productDescription: string;
 }
+export interface AccessRequest {
+    name: string;
+    plan: string;
+    sector: string;
+    email: string;
+    company: string;
+    message: string;
+    timestamp: string;
+}
 export interface TransformationInput {
     context: Uint8Array;
     response: http_request_result;
@@ -150,6 +159,7 @@ export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCheckoutSession(items: Array<ShoppingItem>, successUrl: string, cancelUrl: string): Promise<string>;
     customLog(_message: string): Promise<void>;
+    getAccessRequests(): Promise<Array<AccessRequest>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getStripeSessionStatus(sessionId: string): Promise<StripeSessionStatus>;
@@ -158,6 +168,7 @@ export interface backendInterface {
     isStripeConfigured(): Promise<boolean>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     setStripeConfiguration(config: StripeConfiguration): Promise<void>;
+    submitAccessRequest(request: AccessRequest): Promise<void>;
     transform(input: TransformationInput): Promise<TransformationOutput>;
 }
 import type { StripeSessionStatus as _StripeSessionStatus, UserProfile as _UserProfile, UserRole as _UserRole } from "./declarations/backend.did.d.ts";
@@ -216,6 +227,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.customLog(arg0);
+            return result;
+        }
+    }
+    async getAccessRequests(): Promise<Array<AccessRequest>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAccessRequests();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAccessRequests();
             return result;
         }
     }
@@ -328,6 +353,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.setStripeConfiguration(arg0);
+            return result;
+        }
+    }
+    async submitAccessRequest(arg0: AccessRequest): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.submitAccessRequest(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.submitAccessRequest(arg0);
             return result;
         }
     }

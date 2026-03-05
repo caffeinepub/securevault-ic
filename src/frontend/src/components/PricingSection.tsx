@@ -1,4 +1,5 @@
 import { useActor } from "@/hooks/useActor";
+import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -90,11 +91,12 @@ type StripeItem = {
 
 export default function PricingSection() {
   const { actor } = useActor();
+  const navigate = useNavigate();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [errorPlan, setErrorPlan] = useState<string | null>(null);
 
   const scrollToContact = () => {
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+    navigate({ to: "/contact" });
   };
 
   const handleCheckout = async (planName: string, stripeItem: StripeItem) => {

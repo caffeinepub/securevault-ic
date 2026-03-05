@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { ExternalLink, Globe, Heart } from "lucide-react";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 
@@ -5,13 +6,13 @@ const CANISTER_ID = "bkyz2-fmaaa-aaaaa-qaaaq-cai";
 const DASHBOARD_URL = `https://dashboard.internetcomputer.org/canister/${CANISTER_ID}`;
 
 const platformLinks = [
-  { label: "Features", href: "#features" },
-  { label: "Sectors", href: "#sectors" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Why IC", href: "#why-ic" },
-  { label: "About", href: "#about" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Contact", href: "#contact" },
+  { label: "Features", to: "/features" },
+  { label: "Sectors", to: "/sectors" },
+  { label: "How It Works", to: "/how-it-works" },
+  { label: "Why IC", to: "/why-ic" },
+  { label: "About", to: "/about" },
+  { label: "Pricing", to: "/pricing" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const legalLinks = [
@@ -60,11 +61,6 @@ export default function Footer() {
   const year = new Date().getFullYear();
   const caffeineUrl = `https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(window.location.hostname)}`;
 
-  const handleNavClick = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <footer className="relative border-t border-border bg-brand-navy/85 backdrop-blur-sm">
       {/* Gold top line */}
@@ -74,13 +70,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2.5 mb-4">
+            <Link to="/" className="flex items-center gap-2.5 mb-4 w-fit">
               <ShieldLogo />
               <span className="font-display font-bold text-[1.05rem] tracking-tight">
                 <span className="text-foreground">SecureVault</span>
                 <span className="gradient-text-blue"> IC</span>
               </span>
-            </div>
+            </Link>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-xs">
               The world's most secure document vault, powered entirely by the
               Internet Computer. Sovereign. Tamperproof. Unstoppable.
@@ -112,14 +108,13 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               {platformLinks.map((link) => (
-                <li key={link.href}>
-                  <button
-                    type="button"
-                    onClick={() => handleNavClick(link.href)}
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

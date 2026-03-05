@@ -68,19 +68,15 @@ export default function ContactSection() {
 
     try {
       if (!actor) throw new Error("Backend not ready. Please try again.");
-      // Log the access request as a structured JSON entry on-chain
-      await actor.customLog(
-        JSON.stringify({
-          type: "access_request",
-          organizationName: form.company,
-          contactName: form.name,
-          email: form.email,
-          sector: form.sector,
-          plan: form.plan,
-          message: form.message,
-          timestamp: new Date().toISOString(),
-        }),
-      );
+      await actor.submitAccessRequest({
+        name: form.name,
+        email: form.email,
+        company: form.company,
+        sector: form.sector,
+        plan: form.plan,
+        message: form.message,
+        timestamp: new Date().toISOString(),
+      });
       setStatus("success");
       setForm(initialForm);
     } catch (err) {

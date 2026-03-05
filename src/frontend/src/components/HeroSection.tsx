@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useRef } from "react";
@@ -123,12 +124,9 @@ const stats = [
 ];
 
 export default function HeroSection() {
-  const scrollToContact = () =>
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-  const scrollToHowItWorks = () =>
-    document
-      .querySelector("#how-it-works")
-      ?.scrollIntoView({ behavior: "smooth" });
+  const navigate = useNavigate();
+  const scrollToContact = () => navigate({ to: "/contact" });
+  const scrollToHowItWorks = () => navigate({ to: "/how-it-works" });
 
   return (
     <section

@@ -24,6 +24,15 @@ export interface ShoppingItem {
     priceInCents: bigint;
     productDescription: string;
 }
+export interface AccessRequest {
+    name: string;
+    plan: string;
+    sector: string;
+    email: string;
+    company: string;
+    message: string;
+    timestamp: string;
+}
 export interface TransformationInput {
     context: Uint8Array;
     response: http_request_result;
@@ -67,6 +76,7 @@ export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCheckoutSession(items: Array<ShoppingItem>, successUrl: string, cancelUrl: string): Promise<string>;
     customLog(_message: string): Promise<void>;
+    getAccessRequests(): Promise<Array<AccessRequest>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getStripeSessionStatus(sessionId: string): Promise<StripeSessionStatus>;
@@ -75,5 +85,6 @@ export interface backendInterface {
     isStripeConfigured(): Promise<boolean>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     setStripeConfiguration(config: StripeConfiguration): Promise<void>;
+    submitAccessRequest(request: AccessRequest): Promise<void>;
     transform(input: TransformationInput): Promise<TransformationOutput>;
 }

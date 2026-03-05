@@ -1,25 +1,42 @@
+import Map "mo:core/Map";
+import Principal "mo:core/Principal";
 import List "mo:core/List";
-import AccessControl "authorization/access-control";
 
 module {
-  type AccessRequest = {
-    organizationName : Text;
-    contactName : Text;
+  type UserProfile = {
+    principal : Text;
     email : Text;
-    orgType : Text;
-    message : Text;
-    timestamp : Int;
+    orgName : Text;
+    contact : Text;
+    billingAddress : Text;
+    billingCountry : Text;
+    metadata : Text;
+    agreementVersion : Text;
   };
 
   type OldActor = {
-    accessRequests : List.List<AccessRequest>;
+    userProfiles : Map.Map<Principal, UserProfile>;
   };
 
-  type NewActor = { accessControlState : AccessControl.AccessControlState };
+  public type AccessRequest = {
+    name : Text;
+    email : Text;
+    company : Text;
+    sector : Text;
+    plan : Text;
+    message : Text;
+    timestamp : Text;
+  };
 
-  public func run(_old : OldActor) : NewActor {
+  type NewActor = {
+    userProfiles : Map.Map<Principal, UserProfile>;
+    requestList : List.List<AccessRequest>;
+  };
+
+  public func run(old : OldActor) : NewActor {
     {
-      accessControlState = AccessControl.initState();
+      userProfiles = old.userProfiles;
+      requestList = List.empty<AccessRequest>();
     };
   };
 };

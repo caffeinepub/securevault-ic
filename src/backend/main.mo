@@ -1,13 +1,15 @@
-import Migration "migration";
 import Stripe "stripe/stripe";
 import OutCall "http-outcalls/outcall";
 import AccessControl "authorization/access-control";
 import MixinAuthorization "authorization/MixinAuthorization";
 import Map "mo:core/Map";
-import Runtime "mo:core/Runtime";
-import Text "mo:core/Text";
 import Principal "mo:core/Principal";
+import Runtime "mo:core/Runtime";
+import Array "mo:core/Array";
+import Migration "migration";
+import List "mo:core/List";
 
+// Specify the data migration function in with-clause
 (with migration = Migration.run)
 actor {
   // Access control and authorization
@@ -35,11 +37,19 @@ actor {
     };
   };
 
-  public func getStripeSessionStatus(sessionId : Text) : async Stripe.StripeSessionStatus {
+  public shared ({ caller }) func getStripeSessionStatus(sessionId : Text) : async Stripe.StripeSessionStatus {
+    // Require at least user authentication to prevent abuse
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only authenticated users can check session status");
+    };
     await Stripe.getSessionStatus(getStripeConfiguration(), sessionId, transform);
   };
 
   public shared ({ caller }) func createCheckoutSession(items : [Stripe.ShoppingItem], successUrl : Text, cancelUrl : Text) : async Text {
+    // Require at least user authentication to prevent abuse
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only authenticated users can create checkout sessions");
+    };
     await Stripe.createCheckoutSession(getStripeConfiguration(), caller, items, successUrl, cancelUrl, transform);
   };
 
@@ -80,6 +90,33 @@ actor {
       Runtime.trap("Unauthorized: Only users can save profiles");
     };
     userProfiles.add(caller, profile);
+  };
+
+  public type AccessRequest = {
+    name : Text;
+    email : Text;
+    company : Text;
+    sector : Text;
+    plan : Text;
+    message : Text;
+    timestamp : Text;
+  };
+
+  // Persistent Access Requests storage
+  let requestList = List.empty<AccessRequest>();
+
+  // Function to submit an access request (open to public, no authentication required)
+  public func submitAccessRequest(request : AccessRequest) : async () {
+    // No authorization check - intentionally public for unauthenticated access requests
+    requestList.add(request);
+  };
+
+  // Admin-only query to retrieve all access requests
+  public query ({ caller }) func getAccessRequests() : async [AccessRequest] {
+    if (not AccessControl.isAdmin(accessControlState, caller)) {
+      Runtime.trap("Unauthorized: Only admins can perform this action");
+    };
+    requestList.toArray();
   };
 
   // Utility function for testing environment

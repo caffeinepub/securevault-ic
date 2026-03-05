@@ -20,6 +20,15 @@ export const ShoppingItem = IDL.Record({
   'priceInCents' : IDL.Nat,
   'productDescription' : IDL.Text,
 });
+export const AccessRequest = IDL.Record({
+  'name' : IDL.Text,
+  'plan' : IDL.Text,
+  'sector' : IDL.Text,
+  'email' : IDL.Text,
+  'company' : IDL.Text,
+  'message' : IDL.Text,
+  'timestamp' : IDL.Text,
+});
 export const UserProfile = IDL.Record({
   'principal' : IDL.Text,
   'contact' : IDL.Text,
@@ -69,6 +78,7 @@ export const idlService = IDL.Service({
       [],
     ),
   'customLog' : IDL.Func([IDL.Text], [], []),
+  'getAccessRequests' : IDL.Func([], [IDL.Vec(AccessRequest)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
@@ -81,6 +91,7 @@ export const idlService = IDL.Service({
   'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
+  'submitAccessRequest' : IDL.Func([AccessRequest], [], []),
   'transform' : IDL.Func(
       [TransformationInput],
       [TransformationOutput],
@@ -102,6 +113,15 @@ export const idlFactory = ({ IDL }) => {
     'quantity' : IDL.Nat,
     'priceInCents' : IDL.Nat,
     'productDescription' : IDL.Text,
+  });
+  const AccessRequest = IDL.Record({
+    'name' : IDL.Text,
+    'plan' : IDL.Text,
+    'sector' : IDL.Text,
+    'email' : IDL.Text,
+    'company' : IDL.Text,
+    'message' : IDL.Text,
+    'timestamp' : IDL.Text,
   });
   const UserProfile = IDL.Record({
     'principal' : IDL.Text,
@@ -149,6 +169,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'customLog' : IDL.Func([IDL.Text], [], []),
+    'getAccessRequests' : IDL.Func([], [IDL.Vec(AccessRequest)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getStripeSessionStatus' : IDL.Func([IDL.Text], [StripeSessionStatus], []),
@@ -161,6 +182,7 @@ export const idlFactory = ({ IDL }) => {
     'isStripeConfigured' : IDL.Func([], [IDL.Bool], ['query']),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'setStripeConfiguration' : IDL.Func([StripeConfiguration], [], []),
+    'submitAccessRequest' : IDL.Func([AccessRequest], [], []),
     'transform' : IDL.Func(
         [TransformationInput],
         [TransformationOutput],

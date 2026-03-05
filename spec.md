@@ -1,30 +1,21 @@
 # SecureVault IC
 
 ## Current State
-- Full landing page with 11 sections: Hero, Sectors, Features, How It Works, Why IC, Trust Badges, Testimonials, Pricing, About, Contact, Footer.
-- Backend has `submitAccessRequest` and `getAccessRequests` endpoints.
-- Pricing section has three tiers: Starter ($499/mo), Professional ($1,499/mo), Government (Custom).
-- CTA buttons on all three pricing cards currently scroll to the Contact section — no payment flow.
+The app is a multi-page enterprise document vault landing site. It has a Contact/Request Access form in `ContactSection.tsx` that collects name, email, company, sector, plan, and message. The form currently calls `actor.customLog(...)` to store the submission, but `customLog` is admin-only on the backend -- so anonymous visitors get an "Unauthorized" error and the form silently fails.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Stripe payment integration via the Caffeine Stripe component.
-- Backend Stripe checkout session creation for Starter and Professional plans (fixed monthly prices).
-- Government plan CTA continues to scroll to Contact (custom pricing, no direct checkout).
-- Frontend wiring: Starter and Professional CTA buttons trigger Stripe checkout; Government CTA scrolls to Contact as before.
-- Stripe publishable key stored in frontend env config.
+- A public `submitAccessRequest(request: AccessRequest)` backend function that stores access requests in stable memory, callable by any user (no auth required).
+- A `getAccessRequests()` admin-only query function that returns all stored access requests.
+- An `AccessRequest` type with fields: name, email, company, sector, plan, message, timestamp.
 
 ### Modify
-- `PricingSection.tsx`: Replace `onClick={scrollToContact}` for Starter and Professional with Stripe checkout initiation logic. Keep Government CTA as scroll-to-contact.
-- Backend `main.mo`: Add Stripe checkout session creation endpoint for the two paid plans.
+- `ContactSection.tsx`: replace the `actor.customLog(...)` call with `actor.submitAccessRequest({...})` so the form works for all visitors.
 
 ### Remove
 - Nothing removed.
 
 ## Implementation Plan
-1. Select Stripe Caffeine component.
-2. Regenerate backend with Stripe checkout session creation for Starter ($499/mo) and Professional ($1,499/mo) plans.
-3. Update `PricingSection.tsx` to call the backend checkout endpoint for Starter and Professional, redirect user to Stripe checkout URL, keep Government CTA unchanged.
-4. Store Stripe publishable key (`pk_test_51T7DPG4HckXhQMMg6n88tsO5IWfMonuusq29Pywla7cGfplb6OF2PILOd6M1fgu8y3pZD6kTxbF24fhkrGvGzqW6008fdQNimD`) in frontend environment config.
-5. Deploy.
+1. Regenerate backend with the new `submitAccessRequest` (public, no auth) and `getAccessRequests` (admin-only query) functions, and the `AccessRequest` type.
+2. Update `ContactSection.tsx` to call `actor.submitAccessRequest(...)` instead of `actor.customLog(...)`, mapping form fields to the new type.
