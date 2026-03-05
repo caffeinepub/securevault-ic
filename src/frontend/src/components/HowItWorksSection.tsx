@@ -6,65 +6,57 @@ const steps = [
     icon: Upload,
     title: "Upload & Encrypt",
     description:
-      "Documents are encrypted end-to-end on your device before anything leaves your network. Your keys never touch external infrastructure.",
-    detail: "AES-256 + threshold ECDSA",
-    accentClass: "step-card-blue",
-    iconColor: "text-brand-blue",
-    iconBg: "bg-primary/10 border-primary/25",
-    numberColor: "oklch(0.55 0.22 264 / 0.12)",
+      "Documents are encrypted end-to-end on your device before leaving your network. Your keys never touch external infrastructure.",
+    detail: "AES-256 + Threshold ECDSA",
+    variant: "blue" as const,
   },
   {
     number: "02",
     icon: HardDrive,
     title: "Store On-Chain",
     description:
-      "Encrypted documents become immutable smart contract data on the Internet Computer — replicated across independent global nodes with no central owner.",
-    detail: "13+ independent nodes",
-    accentClass: "step-card-blue",
-    iconColor: "text-brand-blue",
-    iconBg: "bg-primary/10 border-primary/25",
-    numberColor: "oklch(0.55 0.22 264 / 0.12)",
+      "Encrypted documents become immutable smart contract data on the Internet Computer — replicated across independent global nodes with no single owner.",
+    detail: "13+ Independent Nodes",
+    variant: "blue" as const,
   },
   {
     number: "03",
     icon: Download,
-    title: "Retrieve Anytime",
+    title: "Access & Verify",
     description:
       "Authorized users retrieve documents with cryptographic verification in under 500ms. Every access is permanently logged on-chain.",
-    detail: "< 500ms · Full audit trail",
-    accentClass: "step-card-gold",
-    iconColor: "text-brand-gold",
-    iconBg: "bg-accent/10 border-accent/25",
-    numberColor: "oklch(0.73 0.12 82 / 0.12)",
+    detail: "< 500ms · Full Audit Trail",
+    variant: "gold" as const,
   },
 ];
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-24 relative">
+    <section id="how-it-works" className="py-28 relative">
       <div className="section-divider mb-0" />
 
-      <div className="container mx-auto px-6 max-w-6xl pt-24">
+      <div className="container mx-auto px-6 max-w-6xl pt-20">
         {/* Header */}
         <div className="text-center mb-20 animate-on-scroll">
-          <p className="text-xs font-semibold uppercase tracking-widest text-brand-gold mb-3">
+          <p className="text-[10px] font-bold uppercase tracking-[0.20em] text-brand-gold mb-4">
             How It Works
           </p>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-            Three Steps to{" "}
-            <span className="gradient-text-blue">Sovereign Security</span>
+          <h2 className="section-headline font-display text-foreground mb-5">
+            Simple. <span className="gradient-text-blue">Secure.</span>{" "}
+            <span className="gradient-text-gold">Sovereign.</span>
           </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
+          <p className="text-muted-foreground text-base max-w-lg mx-auto leading-relaxed">
             From upload to retrieval — every step is zero-trust by architecture,
             not by policy.
           </p>
         </div>
 
-        {/* Pipeline — vertical on mobile, horizontal on desktop */}
+        {/* Pipeline */}
         <div className="flex flex-col lg:flex-row items-stretch gap-0">
           {steps.map((step, i) => {
             const Icon = step.icon;
             const isLast = i === steps.length - 1;
+            const isGold = step.variant === "gold";
 
             return (
               <div
@@ -73,31 +65,54 @@ export default function HowItWorksSection() {
               >
                 {/* Step card */}
                 <div
-                  className={`step-card ${step.accentClass} animate-on-scroll animate-on-scroll-delay-${i + 1} rounded-xl p-8 flex-1 relative overflow-hidden group`}
+                  className={`step-card ${isGold ? "step-card-gold" : "step-card-blue"} animate-on-scroll animate-on-scroll-delay-${i + 1} rounded-lg p-8 flex-1 relative overflow-hidden group`}
                 >
-                  {/* Ghost number backdrop */}
+                  {/* Large ghost step number */}
                   <span
-                    className="step-number-outline"
+                    className="absolute right-4 bottom-3 text-[5.5rem] font-black leading-none pointer-events-none select-none"
                     style={{
-                      WebkitTextStrokeColor: step.numberColor,
+                      color: "transparent",
+                      WebkitTextStroke: `1px ${
+                        isGold
+                          ? "oklch(0.74 0.135 83 / 0.10)"
+                          : "oklch(0.52 0.20 262 / 0.10)"
+                      }`,
+                      letterSpacing: "-0.04em",
                     }}
+                    aria-hidden="true"
                   >
                     {step.number}
                   </span>
 
-                  {/* Icon + step indicator */}
+                  {/* Icon + label */}
                   <div className="flex items-center gap-3 mb-6">
                     <div
-                      className={`w-11 h-11 rounded-xl ${step.iconBg} border flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-300`}
+                      className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-300"
+                      style={
+                        isGold
+                          ? {
+                              background: "oklch(0.74 0.135 83 / 0.12)",
+                              border: "1px solid oklch(0.74 0.135 83 / 0.28)",
+                            }
+                          : {
+                              background: "oklch(0.52 0.20 262 / 0.12)",
+                              border: "1px solid oklch(0.52 0.20 262 / 0.28)",
+                            }
+                      }
                     >
-                      <Icon size={20} className={step.iconColor} />
+                      <Icon
+                        size={19}
+                        className={
+                          isGold ? "text-brand-gold" : "text-brand-blue"
+                        }
+                      />
                     </div>
-                    <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60">
+                    <span className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground/55">
                       Step {i + 1}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-foreground mb-3 leading-tight">
+                  <h3 className="font-display font-bold text-lg text-foreground mb-3 leading-tight">
                     {step.title}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-5">
@@ -108,16 +123,12 @@ export default function HowItWorksSection() {
                   <div className="inline-flex items-center gap-1.5">
                     <span
                       className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                        step.accentClass === "step-card-gold"
-                          ? "bg-brand-gold"
-                          : "bg-brand-blue"
+                        isGold ? "bg-brand-gold" : "bg-brand-blue"
                       }`}
                     />
                     <span
                       className={`text-xs font-semibold ${
-                        step.accentClass === "step-card-gold"
-                          ? "text-brand-gold/80"
-                          : "text-brand-blue/80"
+                        isGold ? "text-brand-gold/80" : "text-brand-blue/80"
                       }`}
                     >
                       {step.detail}
@@ -125,14 +136,12 @@ export default function HowItWorksSection() {
                   </div>
                 </div>
 
-                {/* Connector between steps */}
+                {/* Connector */}
                 {!isLast && (
                   <>
-                    {/* Mobile: vertical dashed line */}
                     <div className="lg:hidden flex justify-center py-1">
                       <div className="step-connector-v" />
                     </div>
-                    {/* Desktop: horizontal dashed line with arrow */}
                     <div className="hidden lg:flex items-center px-2 flex-shrink-0">
                       <div className="step-connector-h w-10" />
                       <svg
@@ -144,7 +153,7 @@ export default function HowItWorksSection() {
                       >
                         <path
                           d="M0 5h8M5 1l4 4-4 4"
-                          stroke="oklch(0.55 0.22 264 / 0.5)"
+                          stroke="oklch(0.52 0.20 262 / 0.50)"
                           strokeWidth="1.2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -158,11 +167,11 @@ export default function HowItWorksSection() {
           })}
         </div>
 
-        {/* Bottom trust line */}
-        <div className="mt-16 flex justify-center animate-on-scroll">
-          <p className="text-xs text-muted-foreground/60 text-center max-w-md">
+        {/* Footer note */}
+        <div className="mt-14 flex justify-center animate-on-scroll">
+          <p className="text-xs text-muted-foreground/55 text-center max-w-md leading-relaxed">
             Every operation is executed by smart contracts on the Internet
-            Computer — no intermediaries, no exceptions, no single points of
+            Computer — no intermediaries, no exceptions, no single point of
             failure.
           </p>
         </div>

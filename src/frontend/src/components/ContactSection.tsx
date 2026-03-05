@@ -12,29 +12,33 @@ import { useActor } from "@/hooks/useActor";
 import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import { useState } from "react";
 
-const orgTypes = [
+const sectors = [
   "Enterprise",
   "Government Agency",
   "Financial Institution",
   "Legal Firm",
   "Healthcare Organization",
-  "Data Protection Agency",
+  "Defense",
   "Other",
 ];
 
+const planOptions = ["Starter", "Professional", "Government", "Not Sure Yet"];
+
 interface FormState {
-  orgName: string;
-  contactName: string;
+  name: string;
   email: string;
-  orgType: string;
+  company: string;
+  sector: string;
+  plan: string;
   message: string;
 }
 
 const initialForm: FormState = {
-  orgName: "",
-  contactName: "",
+  name: "",
   email: "",
-  orgType: "",
+  company: "",
+  sector: "",
+  plan: "",
   message: "",
 };
 
@@ -48,11 +52,12 @@ export default function ContactSection() {
 
   const handleChange = (field: keyof FormState, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (status === "error") setStatus("idle");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.orgName || !form.contactName || !form.email || !form.orgType) {
+    if (!form.name || !form.email || !form.company || !form.sector) {
       setErrorMsg("Please fill in all required fields.");
       setStatus("error");
       return;
@@ -62,15 +67,19 @@ export default function ContactSection() {
     setErrorMsg("");
 
     try {
-      if (!actor) {
-        throw new Error("Backend not ready. Please try again.");
-      }
-      await actor.submitAccessRequest(
-        form.orgName,
-        form.contactName,
-        form.email,
-        form.orgType,
-        form.message,
+      if (!actor) throw new Error("Backend not ready. Please try again.");
+      // Log the access request as a structured JSON entry on-chain
+      await actor.customLog(
+        JSON.stringify({
+          type: "access_request",
+          organizationName: form.company,
+          contactName: form.name,
+          email: form.email,
+          sector: form.sector,
+          plan: form.plan,
+          message: form.message,
+          timestamp: new Date().toISOString(),
+        }),
       );
       setStatus("success");
       setForm(initialForm);
@@ -84,7 +93,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-24 relative">
+    <section id="contact" className="py-28 relative">
       <div className="section-divider mb-0" />
 
       {/* Background glow */}
@@ -92,47 +101,52 @@ export default function ContactSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 50% 40% at 50% 60%, oklch(0.55 0.22 264 / 0.06) 0%, transparent 70%)",
+            "radial-gradient(ellipse 55% 45% at 50% 60%, oklch(0.52 0.20 262 / 0.05) 0%, transparent 70%)",
         }}
       />
 
-      <div className="container mx-auto px-6 max-w-3xl pt-24">
+      <div className="container mx-auto px-6 max-w-3xl pt-20">
         {/* Header */}
         <div className="text-center mb-14 animate-on-scroll">
-          <p className="text-xs font-semibold uppercase tracking-widest text-brand-gold mb-3">
-            Request Access
+          <p className="text-[10px] font-bold uppercase tracking-[0.20em] text-brand-gold mb-4">
+            Get In Touch
           </p>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-            Secure Your{" "}
-            <span className="gradient-text-blue">Organization's Data</span>
+          <h2 className="section-headline font-display text-foreground mb-5">
+            Request Access
           </h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
+          <p className="text-muted-foreground text-base max-w-lg mx-auto leading-relaxed">
             Fill out the form below and our team will reach out within 24 hours
             to discuss your organization's specific requirements.
           </p>
         </div>
 
-        <div className="glass-card rounded-2xl p-8 md:p-10 animate-on-scroll">
+        <div className="glass-card rounded-xl p-8 md:p-10 animate-on-scroll">
           {/* Success state */}
           {status === "success" && (
             <div
               data-ocid="contact.success_state"
-              className="flex flex-col items-center text-center py-10"
+              className="flex flex-col items-center text-center py-12"
             >
-              <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mb-5">
-                <CheckCircle2 size={30} className="text-brand-blue" />
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
+                style={{
+                  background: "oklch(0.52 0.20 262 / 0.12)",
+                  border: "1px solid oklch(0.52 0.20 262 / 0.30)",
+                }}
+              >
+                <CheckCircle2 size={28} className="text-brand-blue" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">
+              <h3 className="font-display font-bold text-xl text-foreground mb-3">
                 Request Received
               </h3>
-              <p className="text-muted-foreground text-sm max-w-sm">
+              <p className="text-muted-foreground text-sm max-w-sm leading-relaxed">
                 Thank you for your interest in SecureVault IC. Our enterprise
                 team will contact you within 24 hours.
               </p>
               <button
                 type="button"
                 onClick={() => setStatus("idle")}
-                className="mt-6 text-sm text-brand-blue hover:underline"
+                className="mt-6 text-sm text-brand-blue hover:text-brand-blue-light transition-colors underline underline-offset-4"
               >
                 Submit another request
               </button>
@@ -141,74 +155,53 @@ export default function ContactSection() {
 
           {/* Form */}
           {status !== "success" && (
-            <form onSubmit={handleSubmit} noValidate className="space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
               {/* Error state */}
               {status === "error" && (
                 <div
                   data-ocid="contact.error_state"
-                  className="flex items-start gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/30 text-sm text-destructive"
+                  className="flex items-start gap-3 p-4 rounded-lg text-sm"
+                  style={{
+                    background: "oklch(0.577 0.245 27 / 0.10)",
+                    border: "1px solid oklch(0.577 0.245 27 / 0.28)",
+                    color: "oklch(0.72 0.20 27)",
+                  }}
                 >
-                  <AlertCircle size={17} className="flex-shrink-0 mt-0.5" />
+                  <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
                   <span>{errorMsg}</span>
                 </div>
               )}
 
-              {/* Row 1: org name + contact name */}
+              {/* Row 1: Name + Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label
-                    htmlFor="orgName"
-                    className="text-sm font-medium text-foreground/90"
+                    htmlFor="contact-name"
+                    className="text-sm font-medium text-foreground/85"
                   >
-                    Organization Name{" "}
-                    <span className="text-destructive">*</span>
+                    Full Name <span className="text-destructive">*</span>
                   </Label>
                   <Input
-                    id="orgName"
-                    data-ocid="contact.org_name.input"
-                    type="text"
-                    placeholder="Meridian Capital Bank"
-                    value={form.orgName}
-                    onChange={(e) => handleChange("orgName", e.target.value)}
-                    required
-                    autoComplete="organization"
-                    className="bg-brand-navy-light/50 border-border focus:border-primary/60 focus:ring-primary/20"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="contactName"
-                    className="text-sm font-medium text-foreground/90"
-                  >
-                    Contact Name <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="contactName"
-                    data-ocid="contact.contact_name.input"
+                    id="contact-name"
+                    data-ocid="contact.name.input"
                     type="text"
                     placeholder="James Harrington"
-                    value={form.contactName}
-                    onChange={(e) =>
-                      handleChange("contactName", e.target.value)
-                    }
+                    value={form.name}
+                    onChange={(e) => handleChange("name", e.target.value)}
                     required
                     autoComplete="name"
-                    className="bg-brand-navy-light/50 border-border focus:border-primary/60 focus:ring-primary/20"
+                    className="bg-brand-navy-light/40 border-border focus:border-primary/55 focus:ring-primary/18"
                   />
                 </div>
-              </div>
-
-              {/* Row 2: email + org type */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label
-                    htmlFor="email"
-                    className="text-sm font-medium text-foreground/90"
+                    htmlFor="contact-email"
+                    className="text-sm font-medium text-foreground/85"
                   >
                     Email Address <span className="text-destructive">*</span>
                   </Label>
                   <Input
-                    id="email"
+                    id="contact-email"
                     data-ocid="contact.email.input"
                     type="email"
                     placeholder="james@meridian.com"
@@ -216,28 +209,51 @@ export default function ContactSection() {
                     onChange={(e) => handleChange("email", e.target.value)}
                     required
                     autoComplete="email"
-                    className="bg-brand-navy-light/50 border-border focus:border-primary/60 focus:ring-primary/20"
+                    className="bg-brand-navy-light/40 border-border focus:border-primary/55 focus:ring-primary/18"
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Company + Sector */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="contact-company"
+                    className="text-sm font-medium text-foreground/85"
+                  >
+                    Company / Organization{" "}
+                    <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="contact-company"
+                    data-ocid="contact.company.input"
+                    type="text"
+                    placeholder="Meridian Capital Bank"
+                    value={form.company}
+                    onChange={(e) => handleChange("company", e.target.value)}
+                    required
+                    autoComplete="organization"
+                    className="bg-brand-navy-light/40 border-border focus:border-primary/55 focus:ring-primary/18"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium text-foreground/90">
-                    Organization Type{" "}
-                    <span className="text-destructive">*</span>
+                  <Label className="text-sm font-medium text-foreground/85">
+                    Sector <span className="text-destructive">*</span>
                   </Label>
                   <Select
-                    value={form.orgType}
-                    onValueChange={(val) => handleChange("orgType", val)}
+                    value={form.sector}
+                    onValueChange={(val) => handleChange("sector", val)}
                   >
                     <SelectTrigger
-                      data-ocid="contact.org_type.select"
-                      className="bg-brand-navy-light/50 border-border focus:border-primary/60"
+                      data-ocid="contact.sector.select"
+                      className="bg-brand-navy-light/40 border-border focus:border-primary/55"
                     >
-                      <SelectValue placeholder="Select type" />
+                      <SelectValue placeholder="Select sector" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover border-border">
-                      {orgTypes.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type}
+                      {sectors.map((s) => (
+                        <SelectItem key={s} value={s}>
+                          {s}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -245,39 +261,67 @@ export default function ContactSection() {
                 </div>
               </div>
 
+              {/* Row 3: Plan of interest */}
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-foreground/85">
+                  Plan of Interest
+                  <span className="text-muted-foreground font-normal ml-1">
+                    (optional)
+                  </span>
+                </Label>
+                <Select
+                  value={form.plan}
+                  onValueChange={(val) => handleChange("plan", val)}
+                >
+                  <SelectTrigger
+                    data-ocid="contact.plan.select"
+                    className="bg-brand-navy-light/40 border-border focus:border-primary/55"
+                  >
+                    <SelectValue placeholder="Select plan" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover border-border">
+                    {planOptions.map((p) => (
+                      <SelectItem key={p} value={p}>
+                        {p}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               {/* Message */}
               <div className="space-y-2">
                 <Label
-                  htmlFor="message"
-                  className="text-sm font-medium text-foreground/90"
+                  htmlFor="contact-message"
+                  className="text-sm font-medium text-foreground/85"
                 >
-                  Message{" "}
-                  <span className="text-muted-foreground font-normal">
-                    (Optional)
+                  Message
+                  <span className="text-muted-foreground font-normal ml-1">
+                    (optional)
                   </span>
                 </Label>
                 <Textarea
-                  id="message"
+                  id="contact-message"
                   data-ocid="contact.message.textarea"
-                  placeholder="Tell us about your organization's document security requirements, scale, and any compliance standards you need to meet..."
+                  placeholder="Describe your organization's document security requirements, scale, and any compliance standards you need to meet..."
                   value={form.message}
                   onChange={(e) => handleChange("message", e.target.value)}
                   rows={5}
-                  className="bg-brand-navy-light/50 border-border focus:border-primary/60 focus:ring-primary/20 resize-none"
+                  className="bg-brand-navy-light/40 border-border focus:border-primary/55 focus:ring-primary/18 resize-none"
                 />
               </div>
 
               {/* Submit */}
               <button
                 type="submit"
-                data-ocid="contact.submit.button"
+                data-ocid="contact.submit_button"
                 disabled={status === "loading"}
-                className="btn-primary-glow w-full flex items-center justify-center gap-3 py-4 rounded-lg text-base font-bold text-white disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                className="btn-primary-glow w-full flex items-center justify-center gap-3 py-4 rounded text-base font-bold text-white disabled:opacity-65 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {status === "loading" ? (
                   <>
                     <Loader2
-                      size={18}
+                      size={17}
                       className="animate-spin"
                       data-ocid="contact.loading_state"
                     />
@@ -285,15 +329,15 @@ export default function ContactSection() {
                   </>
                 ) : (
                   <>
-                    <Send size={18} />
+                    <Send size={17} />
                     Request Secure Access
                   </>
                 )}
               </button>
 
-              <p className="text-xs text-muted-foreground text-center">
-                Your information is encrypted and never shared with third
-                parties.
+              <p className="text-xs text-muted-foreground/55 text-center">
+                Your information is encrypted and stored on-chain. Never shared
+                with third parties.
               </p>
             </form>
           )}

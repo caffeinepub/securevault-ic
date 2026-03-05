@@ -2,99 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/assets/fonts/CabinetGrotesk-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sora";
+  src: url("/assets/fonts/Sora-Variable.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono-Variable.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
-    --radius: 0.5rem;
+    --radius: 0.375rem;
 
-    /* SecureVault IC — Dark Navy Enterprise Theme */
-    /* Base: Deep navy #0A1628 → oklch(0.15 0.04 255) */
-    --background: 0.11 0.035 255;
-    --foreground: 0.97 0.005 255;
+    /* SecureVault IC — Deep Obsidian + Sovereign Gold Theme */
+    /* Background: near-black with deep blue tint */
+    --background: 0.09 0.025 250;
+    --foreground: 0.96 0.004 250;
 
-    --card: 0.16 0.04 255;
-    --card-foreground: 0.97 0.005 255;
+    --card: 0.13 0.032 252;
+    --card-foreground: 0.96 0.004 250;
 
-    --popover: 0.18 0.045 255;
-    --popover-foreground: 0.97 0.005 255;
+    --popover: 0.15 0.038 252;
+    --popover-foreground: 0.96 0.004 250;
 
-    /* Electric blue primary: #1E6FFF → oklch(0.55 0.22 264) */
-    --primary: 0.55 0.22 264;
+    /* Primary: sovereign blue */
+    --primary: 0.52 0.20 262;
     --primary-foreground: 0.99 0 0;
 
-    /* Secondary: mid-navy */
-    --secondary: 0.20 0.05 255;
-    --secondary-foreground: 0.85 0.01 255;
+    /* Secondary: steel */
+    --secondary: 0.18 0.042 252;
+    --secondary-foreground: 0.80 0.012 250;
 
-    --muted: 0.18 0.03 255;
-    --muted-foreground: 0.62 0.03 255;
+    --muted: 0.16 0.028 252;
+    --muted-foreground: 0.58 0.025 250;
 
-    /* Gold accent: #C9A84C → oklch(0.73 0.12 82) */
-    --accent: 0.73 0.12 82;
-    --accent-foreground: 0.11 0.035 255;
+    /* Accent: sovereign gold */
+    --accent: 0.74 0.135 83;
+    --accent-foreground: 0.09 0.025 250;
 
     --destructive: 0.577 0.245 27.325;
     --destructive-foreground: 0.985 0 0;
 
-    --border: 0.28 0.04 255;
-    --input: 0.22 0.045 255;
-    --ring: 0.55 0.22 264;
+    --border: 0.24 0.036 252;
+    --input: 0.19 0.040 252;
+    --ring: 0.52 0.20 262;
 
-    /* Chart colors */
-    --chart-1: 0.55 0.22 264;
-    --chart-2: 0.73 0.12 82;
-    --chart-3: 0.65 0.18 220;
-    --chart-4: 0.60 0.15 200;
-    --chart-5: 0.70 0.10 100;
+    /* Chart */
+    --chart-1: 0.52 0.20 262;
+    --chart-2: 0.74 0.135 83;
+    --chart-3: 0.60 0.16 218;
+    --chart-4: 0.55 0.14 196;
+    --chart-5: 0.68 0.09 98;
 
     /* Sidebar */
-    --sidebar: 0.13 0.04 255;
-    --sidebar-foreground: 0.97 0.005 255;
-    --sidebar-primary: 0.55 0.22 264;
+    --sidebar: 0.11 0.030 252;
+    --sidebar-foreground: 0.96 0.004 250;
+    --sidebar-primary: 0.52 0.20 262;
     --sidebar-primary-foreground: 0.99 0 0;
-    --sidebar-accent: 0.73 0.12 82;
-    --sidebar-accent-foreground: 0.11 0.035 255;
-    --sidebar-border: 0.28 0.04 255;
-    --sidebar-ring: 0.55 0.22 264;
+    --sidebar-accent: 0.74 0.135 83;
+    --sidebar-accent-foreground: 0.09 0.025 250;
+    --sidebar-border: 0.24 0.036 252;
+    --sidebar-ring: 0.52 0.20 262;
 
-    /* Custom brand tokens */
-    --brand-navy: 0.11 0.035 255;
-    --brand-navy-mid: 0.16 0.04 255;
-    --brand-navy-light: 0.22 0.05 255;
-    --brand-blue: 0.55 0.22 264;
-    --brand-blue-light: 0.65 0.18 264;
-    --brand-gold: 0.73 0.12 82;
-    --brand-gold-dark: 0.60 0.10 82;
-    --brand-silver: 0.82 0.01 255;
-  }
-
-  .dark {
-    --background: 0.11 0.035 255;
-    --foreground: 0.97 0.005 255;
-    --card: 0.16 0.04 255;
-    --card-foreground: 0.97 0.005 255;
-    --popover: 0.18 0.045 255;
-    --popover-foreground: 0.97 0.005 255;
-    --primary: 0.55 0.22 264;
-    --primary-foreground: 0.99 0 0;
-    --secondary: 0.20 0.05 255;
-    --secondary-foreground: 0.85 0.01 255;
-    --muted: 0.18 0.03 255;
-    --muted-foreground: 0.62 0.03 255;
-    --accent: 0.73 0.12 82;
-    --accent-foreground: 0.11 0.035 255;
-    --destructive: 0.577 0.245 27.325;
-    --destructive-foreground: 0.985 0 0;
-    --border: 0.28 0.04 255;
-    --input: 0.22 0.045 255;
-    --ring: 0.55 0.22 264;
-    --sidebar: 0.13 0.04 255;
-    --sidebar-foreground: 0.97 0.005 255;
-    --sidebar-primary: 0.55 0.22 264;
-    --sidebar-primary-foreground: 0.99 0 0;
-    --sidebar-accent: 0.73 0.12 82;
-    --sidebar-accent-foreground: 0.11 0.035 255;
-    --sidebar-border: 0.28 0.04 255;
-    --sidebar-ring: 0.55 0.22 264;
+    /* Brand tokens */
+    --brand-navy: 0.09 0.025 250;
+    --brand-navy-mid: 0.13 0.032 252;
+    --brand-navy-light: 0.20 0.045 252;
+    --brand-blue: 0.52 0.20 262;
+    --brand-blue-light: 0.62 0.17 262;
+    --brand-gold: 0.74 0.135 83;
+    --brand-gold-dark: 0.62 0.11 83;
+    --brand-gold-light: 0.86 0.13 83;
+    --brand-silver: 0.80 0.010 250;
   }
 
   * {
@@ -108,17 +103,18 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Sora", sans-serif;
+    font-family: "Sora", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Scroll animations */
+/* ─── Scroll animations ─────────────────────────────────────── */
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-on-scroll.in-view {
@@ -126,250 +122,270 @@
   transform: translateY(0);
 }
 
-.animate-on-scroll-delay-1 { transition-delay: 0.1s; }
-.animate-on-scroll-delay-2 { transition-delay: 0.2s; }
-.animate-on-scroll-delay-3 { transition-delay: 0.3s; }
-.animate-on-scroll-delay-4 { transition-delay: 0.4s; }
-.animate-on-scroll-delay-5 { transition-delay: 0.5s; }
-.animate-on-scroll-delay-6 { transition-delay: 0.6s; }
+.animate-on-scroll-delay-1 { transition-delay: 0.08s; }
+.animate-on-scroll-delay-2 { transition-delay: 0.16s; }
+.animate-on-scroll-delay-3 { transition-delay: 0.24s; }
+.animate-on-scroll-delay-4 { transition-delay: 0.32s; }
+.animate-on-scroll-delay-5 { transition-delay: 0.40s; }
+.animate-on-scroll-delay-6 { transition-delay: 0.48s; }
 
-/* Glow effects */
+/* ─── Glow utilities ─────────────────────────────────────────── */
 .glow-blue {
-  box-shadow: 0 0 30px oklch(0.55 0.22 264 / 0.3), 0 0 60px oklch(0.55 0.22 264 / 0.15);
+  box-shadow: 0 0 28px oklch(0.52 0.20 262 / 0.32), 0 0 56px oklch(0.52 0.20 262 / 0.14);
 }
 
 .glow-gold {
-  box-shadow: 0 0 20px oklch(0.73 0.12 82 / 0.4);
+  box-shadow: 0 0 22px oklch(0.74 0.135 83 / 0.45), 0 0 44px oklch(0.74 0.135 83 / 0.18);
 }
 
-/* Grid background pattern */
+/* ─── Grid / circuit background ──────────────────────────────── */
 .grid-pattern {
-  background-image: 
-    linear-gradient(oklch(0.55 0.22 264 / 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.55 0.22 264 / 0.06) 1px, transparent 1px);
-  background-size: 60px 60px;
+  background-image:
+    linear-gradient(oklch(0.52 0.20 262 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.52 0.20 262 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
-/* Card elevation system — three distinct tiers */
+.circuit-dots {
+  background-image: radial-gradient(oklch(0.52 0.20 262 / 0.18) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
 
-/* Tier 1: Recessed — for secondary/supporting content */
+/* ─── Card tiers ─────────────────────────────────────────────── */
 .glass-card {
-  background: oklch(0.14 0.035 255 / 0.9);
-  border: 1px solid oklch(0.30 0.04 255 / 0.6);
-}
-
-.glass-card:hover {
-  border-color: oklch(0.55 0.22 264 / 0.45);
-  box-shadow: 0 0 20px oklch(0.55 0.22 264 / 0.1), inset 0 1px 0 oklch(0.55 0.22 264 / 0.08);
-}
-
-/* Tier 2: Elevated — for primary feature/testimonial cards */
-.card-elevated {
-  background: oklch(0.17 0.045 255 / 0.95);
-  border: 1px solid oklch(0.55 0.22 264 / 0.18);
-  box-shadow: 0 4px 24px oklch(0.05 0.02 255 / 0.6), inset 0 1px 0 oklch(0.55 0.22 264 / 0.12);
-}
-
-.card-elevated:hover {
-  border-color: oklch(0.55 0.22 264 / 0.5);
-  box-shadow: 0 8px 40px oklch(0.05 0.02 255 / 0.8), 0 0 30px oklch(0.55 0.22 264 / 0.12), inset 0 1px 0 oklch(0.55 0.22 264 / 0.2);
-  transform: translateY(-2px);
+  background: oklch(0.12 0.030 252 / 0.92);
+  border: 1px solid oklch(0.28 0.036 252 / 0.55);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Tier 3: Featured — for highlighted pricing card */
-.card-featured {
-  background: linear-gradient(160deg, oklch(0.19 0.06 264 / 0.95) 0%, oklch(0.15 0.05 264 / 0.9) 100%);
-  border: 1px solid oklch(0.55 0.22 264 / 0.5);
-  box-shadow:
-    0 0 0 1px oklch(0.73 0.12 82 / 0.15),
-    0 8px 40px oklch(0.05 0.02 255 / 0.7),
-    0 0 60px oklch(0.55 0.22 264 / 0.18),
-    inset 0 1px 0 oklch(0.55 0.22 264 / 0.25);
+.glass-card:hover {
+  border-color: oklch(0.52 0.20 262 / 0.40);
+  box-shadow: 0 0 24px oklch(0.52 0.20 262 / 0.10), inset 0 1px 0 oklch(0.52 0.20 262 / 0.08);
+  transform: translateY(-2px);
 }
 
-/* Button glow */
+.card-elevated {
+  background: oklch(0.15 0.040 252 / 0.95);
+  border: 1px solid oklch(0.52 0.20 262 / 0.18);
+  box-shadow: 0 4px 28px oklch(0.04 0.02 252 / 0.6), inset 0 1px 0 oklch(0.52 0.20 262 / 0.10);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-elevated:hover {
+  border-color: oklch(0.52 0.20 262 / 0.45);
+  box-shadow: 0 8px 44px oklch(0.04 0.02 252 / 0.8), 0 0 32px oklch(0.52 0.20 262 / 0.12), inset 0 1px 0 oklch(0.52 0.20 262 / 0.18);
+  transform: translateY(-3px);
+}
+
+.card-gold {
+  background: linear-gradient(145deg, oklch(0.14 0.038 252 / 0.98) 0%, oklch(0.12 0.030 252 / 0.98) 100%);
+  border: 1px solid oklch(0.74 0.135 83 / 0.42);
+  box-shadow:
+    0 0 0 1px oklch(0.74 0.135 83 / 0.10),
+    0 8px 44px oklch(0.04 0.02 252 / 0.7),
+    0 0 48px oklch(0.74 0.135 83 / 0.12),
+    inset 0 1px 0 oklch(0.74 0.135 83 / 0.20);
+}
+
+/* ─── Button styles ──────────────────────────────────────────── */
 .btn-primary-glow {
-  background: oklch(0.55 0.22 264);
-  box-shadow: 0 4px 20px oklch(0.55 0.22 264 / 0.4);
+  background: oklch(0.52 0.20 262);
+  box-shadow: 0 4px 22px oklch(0.52 0.20 262 / 0.42);
   transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.2s ease;
 }
 
 .btn-primary-glow:hover {
-  background: oklch(0.62 0.22 264);
-  box-shadow: 0 6px 30px oklch(0.55 0.22 264 / 0.6);
+  background: oklch(0.58 0.20 262);
+  box-shadow: 0 6px 32px oklch(0.52 0.20 262 / 0.62);
+  transform: translateY(-1px);
+}
+
+.btn-gold-glow {
+  background: oklch(0.74 0.135 83);
+  color: oklch(0.09 0.025 250);
+  box-shadow: 0 4px 20px oklch(0.74 0.135 83 / 0.40);
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-gold-glow:hover {
+  background: oklch(0.80 0.135 83);
+  box-shadow: 0 6px 28px oklch(0.74 0.135 83 / 0.56);
   transform: translateY(-1px);
 }
 
 .btn-outline-glow {
-  border: 1px solid oklch(0.55 0.22 264 / 0.5);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  border: 1px solid oklch(0.52 0.20 262 / 0.48);
+  background: transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.2s ease;
 }
 
 .btn-outline-glow:hover {
-  border-color: oklch(0.55 0.22 264);
-  box-shadow: 0 0 20px oklch(0.55 0.22 264 / 0.3);
+  border-color: oklch(0.52 0.20 262);
+  box-shadow: 0 0 22px oklch(0.52 0.20 262 / 0.28);
+  background: oklch(0.52 0.20 262 / 0.08);
   transform: translateY(-1px);
 }
 
-/* Gold accent line */
-.gold-line {
-  background: linear-gradient(90deg, transparent, oklch(0.73 0.12 82), transparent);
-  height: 1px;
-}
-
-/* Noise texture overlay */
-.noise-overlay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-/* Section divider */
-.section-divider {
-  background: linear-gradient(90deg, transparent, oklch(0.55 0.22 264 / 0.3), oklch(0.73 0.12 82 / 0.5), oklch(0.55 0.22 264 / 0.3), transparent);
-  height: 1px;
-}
-
-/* Badge pulse */
-@keyframes badge-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-.badge-pulse {
-  animation: badge-pulse 2s ease-in-out infinite;
-}
-
-/* Pipeline step connector — dashed animated line */
-@keyframes dash-flow {
-  to { stroke-dashoffset: -20; }
-}
-
-.pipeline-connector {
-  position: relative;
-}
-
-.pipeline-connector::after {
-  content: '';
-  position: absolute;
-  background-image: repeating-linear-gradient(
-    90deg,
-    oklch(0.55 0.22 264 / 0.5) 0px,
-    oklch(0.55 0.22 264 / 0.5) 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  background-size: 16px 1px;
-  height: 1px;
-  top: 50%;
-  left: calc(100% + 12px);
-  right: -12px;
-  width: calc(100% - 24px);
-  pointer-events: none;
-  animation: none;
-}
-
-/* Stat ticker strip */
-.stat-ticker {
-  background: oklch(0.14 0.04 255 / 0.8);
-  border: 1px solid oklch(0.55 0.22 264 / 0.2);
-  border-radius: 9999px;
-}
-
-/* Hero headline first impression */
-.hero-headline-primary {
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  font-weight: 900;
-}
-
-.hero-headline-secondary {
-  font-size: clamp(1.8rem, 5vw, 4rem);
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-  font-weight: 800;
-}
-
-/* Step card with colored left border */
-.step-card {
-  background: oklch(0.15 0.04 255 / 0.9);
-  border: 1px solid oklch(0.30 0.04 255 / 0.7);
-  border-left-width: 3px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.step-card:hover {
-  box-shadow: 0 8px 32px oklch(0.05 0.02 255 / 0.6);
-  transform: translateY(-3px);
-}
-
-.step-card-blue {
-  border-left-color: oklch(0.55 0.22 264);
-}
-
-.step-card-gold {
-  border-left-color: oklch(0.73 0.12 82);
-}
-
-/* Vertical pipeline connector for mobile */
-.step-connector-v {
-  width: 1px;
-  background: repeating-linear-gradient(
-    180deg,
-    oklch(0.55 0.22 264 / 0.5) 0px,
-    oklch(0.55 0.22 264 / 0.5) 6px,
-    transparent 6px,
-    transparent 12px
-  );
-  height: 32px;
-  margin: 0 auto;
-}
-
-/* Horizontal pipeline connector for desktop */
-.step-connector-h {
-  height: 1px;
-  flex: 1;
-  background: repeating-linear-gradient(
-    90deg,
-    oklch(0.55 0.22 264 / 0.5) 0px,
-    oklch(0.55 0.22 264 / 0.5) 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  margin-top: -1px;
-}
-
-/* Outlined step number */
-.step-number-outline {
-  font-size: 6rem;
-  font-weight: 900;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px oklch(0.55 0.22 264 / 0.15);
-  letter-spacing: -0.04em;
-  pointer-events: none;
-  user-select: none;
-  position: absolute;
-  right: 1rem;
-  bottom: 0.5rem;
-}
-
-/* Gradient text */
+/* ─── Text effects ───────────────────────────────────────────── */
 .gradient-text-blue {
-  background: linear-gradient(135deg, oklch(0.7 0.18 264), oklch(0.55 0.22 264));
+  background: linear-gradient(135deg, oklch(0.70 0.18 262), oklch(0.52 0.20 262));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-gold {
-  background: linear-gradient(135deg, oklch(0.85 0.12 82), oklch(0.73 0.12 82));
+  background: linear-gradient(135deg, oklch(0.88 0.13 83), oklch(0.74 0.135 83));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.gradient-text-silver {
+  background: linear-gradient(135deg, oklch(0.92 0.008 250), oklch(0.72 0.015 250));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Section elements ───────────────────────────────────────── */
+.gold-line {
+  background: linear-gradient(90deg, transparent, oklch(0.74 0.135 83 / 0.60), transparent);
+  height: 1px;
+}
+
+.section-divider {
+  background: linear-gradient(90deg, transparent, oklch(0.52 0.20 262 / 0.28), oklch(0.74 0.135 83 / 0.40), oklch(0.52 0.20 262 / 0.28), transparent);
+  height: 1px;
+}
+
+/* ─── Hero typography ────────────────────────────────────────── */
+.hero-headline {
+  font-family: "Cabinet Grotesk", system-ui, sans-serif;
+  font-size: clamp(2.8rem, 7.5vw, 6rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 900;
+}
+
+.section-headline {
+  font-family: "Cabinet Grotesk", system-ui, sans-serif;
+  font-size: clamp(1.9rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
+/* ─── Stat ticker ────────────────────────────────────────────── */
+.stat-ticker {
+  background: oklch(0.12 0.032 252 / 0.85);
+  border: 1px solid oklch(0.52 0.20 262 / 0.20);
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+}
+
+/* ─── Pipeline connector ─────────────────────────────────────── */
+.step-connector-h {
+  height: 1px;
+  flex: 1;
+  background: repeating-linear-gradient(
+    90deg,
+    oklch(0.52 0.20 262 / 0.45) 0px,
+    oklch(0.52 0.20 262 / 0.45) 7px,
+    transparent 7px,
+    transparent 14px
+  );
+}
+
+.step-connector-v {
+  width: 1px;
+  height: 32px;
+  margin: 0 auto;
+  background: repeating-linear-gradient(
+    180deg,
+    oklch(0.52 0.20 262 / 0.45) 0px,
+    oklch(0.52 0.20 262 / 0.45) 5px,
+    transparent 5px,
+    transparent 10px
+  );
+}
+
+/* ─── Step card ──────────────────────────────────────────────── */
+.step-card {
+  background: oklch(0.13 0.034 252 / 0.92);
+  border: 1px solid oklch(0.28 0.036 252 / 0.65);
+  border-left-width: 3px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.step-card:hover {
+  box-shadow: 0 8px 36px oklch(0.04 0.02 252 / 0.6);
+  transform: translateY(-3px);
+}
+
+.step-card-blue { border-left-color: oklch(0.52 0.20 262); }
+.step-card-gold { border-left-color: oklch(0.74 0.135 83); }
+
+/* ─── Badge pulse ────────────────────────────────────────────── */
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.badge-pulse {
+  animation: badge-pulse 2.2s ease-in-out infinite;
+}
+
+/* ─── Noise texture ──────────────────────────────────────────── */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.35;
+  border-radius: inherit;
+}
+
+/* ─── Accordion overrides ────────────────────────────────────── */
+@keyframes accordion-down {
+  from { height: 0 }
+  to { height: var(--radix-accordion-content-height) }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height) }
+  to { height: 0 }
+}
+
+/* ─── Canister ID monospace display ──────────────────────────── */
+.canister-id {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  background: oklch(0.11 0.028 252 / 0.85);
+  border: 1px solid oklch(0.52 0.20 262 / 0.30);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  color: oklch(0.74 0.135 83);
+}
+
+/* ─── Sector icon container ──────────────────────────────────── */
+.sector-icon-ring {
+  background: oklch(0.52 0.20 262 / 0.10);
+  border: 1px solid oklch(0.52 0.20 262 / 0.25);
+  border-radius: 9999px;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover .sector-icon-ring {
+  background: oklch(0.52 0.20 262 / 0.18);
+  border-color: oklch(0.52 0.20 262 / 0.50);
+  box-shadow: 0 0 16px oklch(0.52 0.20 262 / 0.20);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: oklch(0.11 0.030 252); }
+::-webkit-scrollbar-thumb { background: oklch(0.26 0.040 252); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.34 0.060 262); }
